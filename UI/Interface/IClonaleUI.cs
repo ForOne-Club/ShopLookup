@@ -1,7 +1,7 @@
 namespace ReitsKit.UI.Interface
 {
-    public class IClonaleUI
+    public class IClonableUI
     {
-        
+
     }
 }
