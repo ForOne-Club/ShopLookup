@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- Import tModLoader mod properties -->
+    <Import Project="..\tModLoader.targets" />
+
+    <!-- General -->
+    <PropertyGroup>
+
+    </PropertyGroup>
+    <ItemGroup>
+      <AdditionalFiles Remove=".idea\**" />
+      <Compile Remove=".idea\**" />
+      <EmbeddedResource Remove=".idea\**" />
+      <None Remove=".idea\**" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Krafs.Publicizer" Version="2.2.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <Publicize Include="tModLoader" IncludeVirtualMembers="false" />
+        <Publicize Include="ReLogic" IncludeVirtualMembers="false" />
+    </ItemGroup>
+
+    <!-- References -->
+
+</Project>
