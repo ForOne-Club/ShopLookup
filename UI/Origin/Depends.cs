@@ -6,8 +6,15 @@ namespace ReitsKit.UI.Origin;
 
 public partial class UIElement
 {
-    public UIElement Parent { get; private set; }
+    /// <summary>
+    /// 子元素
+    /// </summary>
     private readonly List<UIElement> _children = [];
+
+    /// <summary>
+    /// 父级
+    /// </summary>
+    public UIElement Parent { get; private set; }
 
     public IEnumerator<UIElement> GetEnumerator() => _children.GetEnumerator();
 

@@ -1,7 +1,7 @@
 namespace ReitsKit.UI.Interface
 {
-    public class IClonableUI
+    public interface ICloneableUI
     {
-
+        public T CLone<T>(T uie) where T : UIElement;
     }
 }

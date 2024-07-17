@@ -29,6 +29,11 @@ public class UIImage : UIElement, IDrawTexture
 
     protected override void DrawSelf(SpriteBatch sb) => sb.Draw(this);
 
+    /// <summary>
+    /// 改变纹理
+    /// </summary>
+    /// <param name="tex"></param>
+    /// <param name="reSize">是否将部件大小设为纹理大小（会立刻重新计算该部件）</param>
     public void ChangeTex(Texture2D tex, bool reSize = true)
     {
         Tex = tex;

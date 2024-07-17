@@ -3,6 +3,11 @@ using Terraria.GameContent;
 
 namespace ReitsKit.UI.Basic;
 
+/// <summary>
+/// 最基础的部件，作为底层面板用
+/// <br/>使用3x3式绘制，将纹理等分为9小块，四角不变
+/// <br/>横纵拉伸，中心平铺，以此自适应部件大小
+/// </summary>
 public class UIPanel : UIBottom
 {
     public Texture2D Tex;

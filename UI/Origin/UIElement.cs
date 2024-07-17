@@ -21,11 +21,31 @@ public partial class UIElement : IList<UIElement>
     /// </summary>
     public int SortID { get; private set; }
 
+    /// <summary>
+    /// 用法同<see cref="Main.hoverItemName"/>
+    /// </summary>
     public static ref string HoverText => ref UISystem.Manager.HoverText;
+
+    /// <summary>
+    /// 显示<see cref="HoverText"/>时是否附加一个同原版一样的介绍框
+    /// </summary>
     public static ref bool DrawHoverBg => ref UISystem.Manager.DrawHoverBg;
 
+    /// <summary>
+    /// 部件是否包含点
+    /// </summary>
+    /// <param name="point"></param>
+    /// <returns></returns>
     public bool ContainsPoint(Vector2 point) => ActiveArea.Contains(point);
+
+    /// <summary>
+    /// 对自身溢出裁剪矩形的覆写
+    /// </summary>
     public Func<UIElement, RectangleF> OverrideOverFlow;
+
+    /// <summary>
+    /// 溢出裁剪矩形，用于<see cref="HiddenOverFlow"/>时
+    /// </summary>
     public RectangleF OverFlowArea
     {
         get
@@ -34,7 +54,15 @@ public partial class UIElement : IList<UIElement>
             return source.Intersect(Parent?.OverFlowArea, out var intersect) ? intersect : source;
         }
     }
+
+    /// <summary>
+    /// 对自身可交互区域的覆写
+    /// </summary>
     public Func<UIElement, RectangleF> OverrideActiveArea;
+
+    /// <summary>
+    /// 可交互区域，用于鼠标事件判定
+    /// </summary>
     protected virtual RectangleF ActiveArea
     {
         get

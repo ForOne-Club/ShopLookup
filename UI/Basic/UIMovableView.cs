@@ -4,17 +4,43 @@ using System;
 
 namespace ReitsKit.UI.Basic;
 
+/// <summary>
+/// 可动视区，与<see cref="UIScroll"/>进行交互
+/// </summary>
 public class UIMovableView : UIElement
 {
+    /// <summary>
+    /// 让内部部件自动设置位置的规则
+    /// </summary>
     public Action<List<UIElement>> AutoPos;
+
+    /// <summary>
+    /// 边缘虚化距离
+    /// </summary>
     public int? EdgeX, EdgeY;
-    public Vector2 MovableSize;
+
+    /// <summary>
+    /// 可动距离
+    /// </summary>
+    public Vector2 MovableSize { get; private set; }
+
+    /// <summary>
+    /// 是否可以对视区进行绝对像素拖动
+    /// </summary>
     public bool CanDrag { get; init; } = true;
+
+    /// <summary>
+    /// 绑定的滚动部件
+    /// </summary>
+    public readonly List<UIScroll> Scrolls;
+
+    /// <summary>
+    /// 用于管理内部部件的UI
+    /// </summary>
+    public readonly UIBottom Inner;
     private bool dragging;
     private bool needReCal;
     private Vector2 oldPos;
-    public readonly List<UIScroll> Scrolls;
-    public readonly UIBottom Inner;
     public bool Scrolling => dragging || IsMouseHover;
     public UIMovableView()
     {

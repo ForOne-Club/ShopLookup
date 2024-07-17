@@ -1,22 +1,27 @@
 using System;
-using System.Linq;
-using System.Net.Mime;
 using Microsoft.Xna.Framework.Input;
-using ReitsKit.Helper;
 using ReitsKit.UI.Interface;
 using ReLogic.Graphics;
-using ReLogic.Localization.IME;
-using ReLogic.OS;
-using Steamworks;
+using ReitsKit.UI.Encapsulation;
 using Terraria.GameContent;
 using FontData = ReLogic.Graphics.DynamicSpriteFont.SpriteCharacterData;
 
 namespace ReitsKit.UI.Basic;
 
+/// <summary>
+/// 文本输入框，注意其本身是一个透明的部件
+/// <br/>可以使用已封装好的<see cref="UICornerInput"/>
+/// </summary>
 public class UIInputBox : UIElement, IDrawString
 {
+    /// <summary>
+    /// 不处于输入状态且框内无已输入内容时显示的提示
+    /// </summary>
     public string InputTips { get; init; }
 
+    /// <summary>
+    /// 已输入文本
+    /// </summary>
     public string Text { get; private set; }
 
     public DrawStringStyle DrawStringStyle => DrawStringStyle.TopLeft;
@@ -32,20 +37,58 @@ public class UIInputBox : UIElement, IDrawString
     /// </summary>
     public Vector2 Kerning { get; set; }
 
+    /// <summary>
+    /// 输入任意文本时调用，传入已输入的文本
+    /// </summary>
     public Action<string> OnInput;
+
+    /// <summary>
+    /// 使用清除按钮时调用
+    /// </summary>
     public Action OnClear;
+
+    /// <summary>
+    /// 文本光标闪烁间隔
+    /// </summary>
     public int BlinkTime { get; init; }
+
+    /// <summary>
+    /// 是否允许换行
+    /// </summary>
     public bool LineBreak;
 
     public DynamicSpriteFont Font { get; set; }
-    private KeyCtrl left, right, up, down;
+
+    /// <summary>
+    /// 上下左右键位控制，用于移动文本光标
+    /// </summary>
+    private readonly KeyCtrl left, right, up, down;
+
+    /// <summary>
+    /// 缓存的键位信息，和是否处于输入状态
+    /// </summary>
     private bool pl, pr, pu, pd, isEnableIME;
+
     private const char CursorSym = '|';
-    private int Cursor;
-    private Point CursorPos;
-    private List<(RectangleF local, char t)> text;
+
+    /// <summary>
+    /// 文本光标位置索引
+    /// </summary>
+    private int cursor;
+
+    /// <summary>
+    /// 缓存每个文本的定位与大小
+    /// </summary>
+    private readonly List<(RectangleF local, char t)> text;
+
+    /// <summary>
+    /// 文本光标闪烁计时器
+    /// </summary>
     private int blink;
 
+    /// <summary>
+    /// 当前是否显示文本光标
+    /// </summary>
     private bool Blink
     {
         get
@@ -87,7 +130,7 @@ public class UIInputBox : UIElement, IDrawString
                     RectangleF local = text[i].local;
                     if (local.Contains(Mouse))
                     {
-                        Cursor = Mouse.X > local.Center.X ? i : (i + 1);
+                        cursor = Mouse.X > local.Center.X ? i : (i + 1);
                         blink = 0;
                     }
                 }
@@ -95,7 +138,7 @@ public class UIInputBox : UIElement, IDrawString
             else
             {
                 isEnableIME = true;
-                Cursor = text.Count;
+                cursor = text.Count;
                 blink = 0;
             }
         };
@@ -133,14 +176,14 @@ public class UIInputBox : UIElement, IDrawString
         {
             Terraria.GameInput.PlayerInput.WritingText = true;
             Main.instance.HandleIME();
-            int cp = Cursor;
+            int cp = cursor;
             string crop = Text[..cp];
             string input = Main.GetInputText(crop, true);
             if (crop != input)
             {
                 string remaining = Text[cp..];
                 Text = input + remaining;
-                Cursor = input.Length;
+                cursor = input.Length;
                 text.Clear();
                 RectangleF rect = InsetArea;
                 Vector2 pos = Vector2.Zero;
@@ -159,7 +202,7 @@ public class UIInputBox : UIElement, IDrawString
                 count = text.Count;
             }
             Vector2 local = count == 0 ? Vector2.Zero :
-                Cursor < count ? text[Cursor].local.TopLeft : text[^1].local.TopRight;
+                cursor < count ? text[cursor].local.TopLeft : text[^1].local.TopRight;
             var gd = Main.graphics.GraphicsDevice;
             Rectangle old = gd.ScissorRectangle;
             gd.ScissorRectangle = UISystem.Screen;
@@ -193,14 +236,17 @@ public class UIInputBox : UIElement, IDrawString
         blink = 0;
     }
 
+    /// <summary>
+    /// 移动光标
+    /// </summary>
     private void CheckKeyMoveCursor()
     {
         if (up.State == CtrlState.SingleDown)
         {
-            Vector2 nowPos = text[Cursor].local.TopLeft;
+            Vector2 nowPos = text[cursor].local.TopLeft;
             int index = -1;
             float dis = 0;
-            for (int i = Cursor - 1; i > 0; i--)
+            for (int i = cursor - 1; i > 0; i--)
             {
                 RectangleF local = text[i].local;
                 if (local.Top.Equals(nowPos.Y)) continue;
@@ -213,17 +259,17 @@ public class UIInputBox : UIElement, IDrawString
             }
             if (index > -1)
             {
-                Cursor = index;
+                cursor = index;
                 blink = 0;
             }
         }
         if (down.State == CtrlState.SingleDown)
         {
-            Vector2 nowPos = text[Cursor].local.TopLeft;
+            Vector2 nowPos = text[cursor].local.TopLeft;
             int index = -1;
             float dis = 0;
             int count = text.Count;
-            for (int i = Cursor + 1; i < count; i++)
+            for (int i = cursor + 1; i < count; i++)
             {
                 RectangleF local = text[i].local;
                 if (local.Top.Equals(nowPos.Y)) continue;
@@ -236,18 +282,19 @@ public class UIInputBox : UIElement, IDrawString
             }
             if (index > -1)
             {
-                Cursor = index;
+                cursor = index;
                 blink = 0;
             }
         }
         if (left.State is CtrlState.SingleDown or CtrlState.DoubleDown || left.KeepTime >= 30 && left.KeepTime % 7 == 0)
         {
-            Cursor = Math.Max(0, --Cursor);
+            cursor = Math.Max(0, --cursor);
             blink = 0;
         }
-        if (right.State is CtrlState.SingleDown or CtrlState.DoubleDown || right.KeepTime >= 30 && right.KeepTime % 7 == 0)
+        if (right.State is CtrlState.SingleDown or CtrlState.DoubleDown ||
+            right.KeepTime >= 30 && right.KeepTime % 7 == 0)
         {
-            Cursor = Math.Min(text.Count, ++Cursor);
+            cursor = Math.Min(text.Count, ++cursor);
             blink = 0;
         }
     }

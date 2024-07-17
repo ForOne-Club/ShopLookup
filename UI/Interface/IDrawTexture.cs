@@ -1,5 +1,8 @@
 namespace ReitsKit.UI.Interface;
 
+/// <summary>
+/// 实现某种缓存的绘制（意义不明
+/// </summary>
 public interface IDrawTexture
 {
     public Texture2D Tex { get; }

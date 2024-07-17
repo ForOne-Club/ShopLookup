@@ -87,6 +87,9 @@ public partial class UIElement
         public RectangleF LocateWith(RectangleF depend) => new(GetPosition(depend), GetSize(depend));
     }
 
+    /// <summary>
+    /// UI内切定位信息（所谓内边距）
+    /// </summary>
     public struct InsetAreaInfo()
     {
         public UILocal Left = UILocal.Empty;

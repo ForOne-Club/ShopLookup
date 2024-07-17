@@ -5,6 +5,9 @@ using Terraria.UI.Chat;
 
 namespace ReitsKit.UI.Basic;
 
+/// <summary>
+///
+/// </summary>
 public class UIText : UIElement, IDrawString
 {
     public string Text { get; private set; }
@@ -37,6 +40,12 @@ public class UIText : UIElement, IDrawString
 
     protected override void DrawSelf(SpriteBatch sb) => sb.Draw(this, TextSize);
 
+    /// <summary>
+    /// 改变文本
+    /// </summary>
+    /// <param name="text"></param>
+    /// <param name="maxWidth">会根据给定的最大宽度自动换行</param>
+    /// <param name="reSize">是否将部件大小设为文本大小（会立即重新计算部件）</param>
     public void ChangeText(string text = "", int maxWidth = -1, bool reSize = true)
     {
         if (maxWidth > -1)

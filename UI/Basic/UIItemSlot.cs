@@ -3,6 +3,9 @@ using UIElement = ReitsKit.UI.Origin.UIElement;
 
 namespace ReitsKit.UI.Basic;
 
+/// <summary>
+/// 物品栏，交互请自己实现，毕竟每个地方功能都不同
+/// </summary>
 public class UIItemSlot : UIElement
 {
     public Item Item;

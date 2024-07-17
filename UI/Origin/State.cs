@@ -2,12 +2,39 @@ namespace ReitsKit.UI.Origin;
 
 public partial class UIElement
 {
+    /// <summary>
+    /// 处于活动状态（影响更新与交互）
+    /// </summary>
     public bool Active { get; private set; } = true;
+
+    /// <summary>
+    /// 处于可视状态（不影响更新与交互）
+    /// </summary>
     public bool Visible { get; private set; } = true;
+
+    /// <summary>
+    /// 处于可交互状态
+    /// </summary>
     public bool Interactive { get; private set; } = true;
+
+    /// <summary>
+    /// 处于被其他原因禁用交互状态
+    /// </summary>
     public bool OtherSourceLock { get; private set; }
+
+    /// <summary>
+    /// 为防止更改迭代变量问题，统一用这个标记要删除的部件，会在下一帧统一删除
+    /// </summary>
     public bool NeedRemove { get; private set; }
+
+    /// <summary>
+    /// 处于鼠标覆盖状态
+    /// </summary>
     public bool IsMouseHover { get; private set; }
+
+    /// <summary>
+    /// 已完成初始化
+    /// </summary>
     public bool InitDone { get; private set; }
 
     /// <summary>

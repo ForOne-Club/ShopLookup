@@ -1,7 +1,13 @@
 namespace ReitsKit.UI.Basic;
 
+/// <summary>
+/// 一个完全透明的UI部件
+/// </summary>
 public class UIBottom : UIElement
 {
+    /// <summary>
+    /// 是否允许拖动
+    /// </summary>
     public bool CanDrag;
     private bool dragging;
     private Vector2 origin;
