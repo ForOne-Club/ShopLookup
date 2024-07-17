@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace ReitsKit.UI.Basic;
 
+/// <summary>
+/// 要开始写一个UI时就继承这个，对标原版的<see cref="Terraria.UI.UIState"/>
+/// </summary>
 public abstract class UIContainer : UIElement
 {
     /// <summary>
