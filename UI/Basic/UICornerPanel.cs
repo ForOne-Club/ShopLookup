@@ -1,6 +1,6 @@
-using ReitsKit.UI.Interface;
+using ForOneToolkit.UI.Interface;
 
-namespace ReitsKit.UI.Basic;
+namespace ForOneToolkit.UI.Basic;
 
 /// <summary>
 /// 模拟原版UI框架的面板部件
@@ -20,7 +20,7 @@ public class UICornerPanel : UIPanel, IHoverToColor
     /// </summary>
     public Texture2D BorderTex { get; init; }
 
-    public bool UseHoverChange { get; init; }
+    public bool UseHoverChange { get; init; } = true;
 
     public UICornerPanel(int cornerSize = 12, int barSize = 4)
     {

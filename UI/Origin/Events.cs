@@ -1,6 +1,6 @@
 using System;
 
-namespace ReitsKit.UI.Origin;
+namespace ForOneToolkit.UI.Origin;
 
 public partial class UIElement
 {
@@ -15,6 +15,7 @@ public partial class UIElement
     public event UIMouseEvent OnLeftDoubleClick;
     public event UIMouseEvent OnLeftHoldRelease;
     public event UIMouseEvent OnLeftJustRelease;
+    public event UIMouseEvent OnLeftHolding;
 
     public event UIMouseEvent OnRightJustPress;
     public event UIMouseEvent OnRightSingleDown;
@@ -23,6 +24,7 @@ public partial class UIElement
     public event UIMouseEvent OnRightDoubleClick;
     public event UIMouseEvent OnRightHoldRelease;
     public event UIMouseEvent OnRightJustRelease;
+    public event UIMouseEvent OnRightHolding;
 
     public event UIMouseEvent OnMiddleJustPress;
     public event UIMouseEvent OnMiddleSingleDown;
@@ -31,6 +33,7 @@ public partial class UIElement
     public event UIMouseEvent OnMiddleDoubleClick;
     public event UIMouseEvent OnMiddleHoldRelease;
     public event UIMouseEvent OnMiddleJustRelease;
+    public event UIMouseEvent OnMiddleHolding;
 
     public void LeftJustPress() => OnLeftJustPress?.Invoke(this);
     public void LeftSingleDown() => OnLeftSingleDown?.Invoke(this);
@@ -39,6 +42,7 @@ public partial class UIElement
     public void LeftDoubleClick() => OnLeftDoubleClick?.Invoke(this);
     public void LeftHoldRelease() => OnLeftHoldRelease?.Invoke(this);
     public void LeftJustRelease() => OnLeftJustRelease?.Invoke(this);
+    public void LeftHolding() => OnLeftHolding?.Invoke(this);
     public void RightJustPress() => OnRightJustPress?.Invoke(this);
     public void RightSingleDown() => OnRightSingleDown?.Invoke(this);
     public void RightSingleClick() => OnRightSingleClick?.Invoke(this);
@@ -46,6 +50,7 @@ public partial class UIElement
     public void RightDoubleClick() => OnRightDoubleClick?.Invoke(this);
     public void RightHoldRelease() => OnRightHoldRelease?.Invoke(this);
     public void RightJustRelease() => OnRightJustRelease?.Invoke(this);
+    public void RightHolding() => OnRightHolding?.Invoke(this);
     public void MiddleJustPress() => OnMiddleJustPress?.Invoke(this);
     public void MiddleSingleDown() => OnMiddleSingleDown?.Invoke(this);
     public void MiddleSingleClick() => OnMiddleSingleClick?.Invoke(this);
@@ -53,6 +58,7 @@ public partial class UIElement
     public void MiddleDoubleClick() => OnMiddleDoubleClick?.Invoke(this);
     public void MiddleHoldRelease() => OnMiddleHoldRelease?.Invoke(this);
     public void MiddleJustRelease() => OnMiddleJustRelease?.Invoke(this);
+    public void MiddleHolding() => OnMiddleHolding?.Invoke(this);
 
     public event UIMouseEvent OnLeftOverInteract;
     public event UIMouseEvent OnRightOverInteract;
@@ -67,9 +73,23 @@ public partial class UIElement
     public event UIMouseEvent OnMouseOverInteract;
     public void MouseOverInteract() => OnMouseOverInteract?.Invoke(this);
 
-    public void MouseEnter() => OnMouseEnter?.Invoke(this);
-    public void MouseLeave() => OnMouseLeave?.Invoke(this);
-    public void MouseHover() => OnMouseHover?.Invoke(this);
+    public void MouseEnter()
+    {
+        HoverTime = 0;
+        OnMouseEnter?.Invoke(this);
+    }
+
+    public void MouseLeave()
+    {
+        HoverTime = 0;
+        OnMouseLeave?.Invoke(this);
+    }
+
+    public void MouseHover()
+    {
+        HoverTime++;
+        OnMouseHover?.Invoke(this);
+    }
 
     #endregion
 

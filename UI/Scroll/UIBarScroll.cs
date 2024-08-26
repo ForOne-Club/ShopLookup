@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework.Input;
-using ReitsKit.UI.Interface;
+using ForOneToolkit.UI.Interface;
 using System;
 
-namespace ReitsKit.UI.Scroll
+namespace ForOneToolkit.UI.Scroll
 {
     public abstract class UIBarScroll : UIScroll
     {

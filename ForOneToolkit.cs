@@ -1,6 +1,6 @@
-namespace ReitsKit
+namespace ForOneToolkit
 {
-    public class ReitsKit : Mod
+    public class ForOneToolkit : Mod
     {
         public override void Load()
         {

@@ -1,14 +1,14 @@
-using ReitsKit.UI.Interface;
+using ForOneToolkit.UI.Interface;
 using ReLogic.Graphics;
 using Terraria.GameContent;
 using Terraria.UI.Chat;
 
-namespace ReitsKit.UI.Basic;
+namespace ForOneToolkit.UI.Basic;
 
 /// <summary>
 ///
 /// </summary>
-public class UIText : UIElement, IDrawString
+public class UIText : UIElement, IDrawString, IHoverToColor
 {
     public string Text { get; private set; }
 
@@ -38,6 +38,7 @@ public class UIText : UIElement, IDrawString
         }
     }
 
+    public UIText(object obj, int maxWidth = -1, bool autoSize = true) : this(obj.ToString(), maxWidth, autoSize) { }
     protected override void DrawSelf(SpriteBatch sb) => sb.Draw(this, TextSize);
 
     /// <summary>
@@ -80,5 +81,16 @@ public class UIText : UIElement, IDrawString
     {
         TextSize = Font.MeasureString(Text) * Scale;
         SetSize(TextSize);
+    }
+
+    public bool UseHoverChange { get; init; } = true;
+
+    public void HoverToColor(Color? change = null, Color? source = null)
+    {
+        if (UseHoverChange)
+        {
+            OnMouseEnter += _ => Color = change ?? Color.Gold;
+            OnMouseLeave += _ => Color = source ?? Color.White;
+        }
     }
 }

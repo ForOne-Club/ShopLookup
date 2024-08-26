@@ -1,6 +1,6 @@
 using System;
 
-namespace ReitsKit.Core
+namespace ForOneToolkit.Core
 {
     public enum CtrlState
     {

@@ -1,4 +1,4 @@
-namespace ReitsKit.UI.Basic;
+namespace ForOneToolkit.UI.Basic;
 
 /// <summary>
 /// 一个完全透明的UI部件

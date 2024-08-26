@@ -2,7 +2,7 @@ using System.Collections;
 using Terraria.Social.WeGame;
 using Terraria.UI;
 
-namespace ReitsKit.UI.Origin;
+namespace ForOneToolkit.UI.Origin;
 
 public partial class UIElement
 {
@@ -31,6 +31,8 @@ public partial class UIElement
         uie!.Parent = this;
         uie.SortID = _children.Count;
         uie.OnInit();
+        if (InitDone)
+            uie.InitDone = true;
         _children.Add(uie);
         AddAny(uie);
         uie.AddBy();
@@ -41,6 +43,8 @@ public partial class UIElement
         if (!AllowRegister(uie)) return;
         uie!.SortID = index;
         uie.OnInit();
+        if (InitDone)
+            uie.InitDone = true;
         _children.Insert(index, uie);
         AddAny(uie);
         uie.AddBy();

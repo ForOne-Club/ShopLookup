@@ -6,14 +6,18 @@ using System.Text;
 using Terraria.GameContent;
 using Terraria.GameInput;
 using Terraria.UI.Chat;
-using UIElement = ReitsKit.UI.Origin.UIElement;
+using UIElement = ForOneToolkit.UI.Origin.UIElement;
 
-namespace ReitsKit.UI.Sys;
+namespace ForOneToolkit.UI.Sys;
 
 public class UIManager
 {
     public static RenderTarget2D RTOrigin { get; private set; }
     public static RenderTarget2D RTSwap { get; private set; }
+
+    public readonly KeyCtrl MouseLeft = new(() => Main.mouseLeft);
+    public readonly KeyCtrl MouseMiddle = new(() => Main.mouseMiddle);
+    public readonly KeyCtrl MouseRight = new(() => Main.mouseRight);
     public string HoverText = string.Empty;
     public bool DrawHoverBg;
     public int HoverTextMaxWidth;
@@ -29,10 +33,7 @@ public class UIManager
     /// 存放所有UI容器
     /// </summary>
     private readonly Dictionary<(Mod, string label), UIContainer> containers;
-
-    private readonly KeyCtrl mouseLeft = new(() => Main.mouseLeft);
-    private readonly KeyCtrl mouseMiddle = new(() => Main.mouseMiddle);
-    private readonly KeyCtrl mouseRight = new(() => Main.mouseRight);
+    private StringBuilder hoverText;
 
     public UIManager()
     {
@@ -77,13 +78,25 @@ public class UIManager
 
     private IEnumerable<Action<UIElement>> TryDoMouseEvent()
     {
-        if (mouseLeft.JustPress) yield return x => x.LeftJustPress();
-        if (mouseLeft.JustRelease) yield return x => x.LeftJustRelease();
-        if (mouseRight.JustPress) yield return x => x.RightJustPress();
-        if (mouseRight.JustRelease) yield return x => x.RightJustRelease();
-        if (mouseMiddle.JustPress) yield return x => x.MiddleJustPress();
-        if (mouseMiddle.JustRelease) yield return x => x.MiddleJustRelease();
-        yield return mouseLeft.State switch
+        if (MouseLeft.JustPress)
+            yield return x => x.LeftJustPress();
+        if (MouseLeft.JustRelease)
+            yield return x => x.LeftJustRelease();
+        if (MouseRight.JustPress)
+            yield return x => x.RightJustPress();
+        if (MouseRight.JustRelease)
+            yield return x => x.RightJustRelease();
+        if (MouseMiddle.JustPress)
+            yield return x => x.MiddleJustPress();
+        if (MouseMiddle.JustRelease)
+            yield return x => x.MiddleJustRelease();
+        if (MouseLeft.Pressing)
+            yield return x => x.LeftHolding();
+        if (MouseRight.Pressing)
+            yield return x => x.RightHolding();
+        if (MouseMiddle.Pressing)
+            yield return x => x.MiddleHolding();
+        yield return MouseLeft.State switch
         {
             CtrlState.SingleDown => x => x.LeftSingleDown(),
             CtrlState.SingleClick => x => x.LeftSingleClick(),
@@ -92,7 +105,7 @@ public class UIManager
             CtrlState.HoldRelease => x => x.LeftHoldRelease(),
             _ => null
         };
-        yield return mouseRight.State switch
+        yield return MouseRight.State switch
         {
             CtrlState.SingleDown => x => x.RightSingleDown(),
             CtrlState.SingleClick => x => x.RightSingleClick(),
@@ -101,7 +114,7 @@ public class UIManager
             CtrlState.HoldRelease => x => x.RightHoldRelease(),
             _ => null
         };
-        yield return mouseMiddle.State switch
+        yield return MouseMiddle.State switch
         {
             CtrlState.SingleDown => x => x.MiddleSingleDown(),
             CtrlState.SingleClick => x => x.MiddleSingleClick(),
@@ -174,16 +187,16 @@ public class UIManager
     internal void Update()
     {
         HoverText = string.Empty;
+        hoverText = new();
         HoverTextMaxWidth = -1;
         DrawHoverBg = false;
         if (callOrder.Count == 0)
             return;
-        mouseLeft.Update();
-        mouseRight.Update();
-        mouseMiddle.Update();
+        MouseLeft.Update();
+        MouseRight.Update();
+        MouseMiddle.Update();
         UIContainer changeToTop = null, top = TopContainer;
         Vector2 screen = Main.MouseScreen;
-        bool mouseAny = mouseLeft.State > 0 || mouseRight.State > 0 || mouseMiddle.State > 0;
         bool hoverAny = false;
         foreach (var c in callOrder)
         {
@@ -203,6 +216,11 @@ public class UIManager
                     }
 
                     uie.MouseHover();
+                    if (uie.HoverText != string.Empty)
+                    {
+                        hoverText.Append(uie.HoverText);
+                        hoverText.AppendLine();
+                    }
                 }
                 else if (uie.IsMouseHover)
                 {
@@ -214,7 +232,7 @@ public class UIManager
             if (hoverAny)
             {
                 ((UIMovableView)hover.LastOrDefault(x => x is UIMovableView, null))?.HandleScroll(Mouse.GetState());
-                if (mouseAny && changeToTop == null)
+                if (changeToTop == null)
                 {
                     changeToTop = c;
                     var mouseEvents = TryDoMouseEvent().ToArray();
@@ -232,11 +250,12 @@ public class UIManager
                 }
             }
         }
+        HoverText = hoverText.ToString();
 
         if (hoverAny)
         {
             Main.LocalPlayer.mouseInterface = true;
-            PlayerInput.LockVanillaMouseScroll("ReitsKit");
+            PlayerInput.LockVanillaMouseScroll("ForOneToolkit");
         }
 
         foreach (var uie in needRemoves)

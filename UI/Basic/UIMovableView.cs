@@ -1,8 +1,8 @@
+using ForOneToolkit.UI.Scroll;
 using Microsoft.Xna.Framework.Input;
-using ReitsKit.UI.Scroll;
 using System;
 
-namespace ReitsKit.UI.Basic;
+namespace ForOneToolkit.UI.Basic;
 
 /// <summary>
 /// 可动视区，与<see cref="UIScroll"/>进行交互
@@ -38,10 +38,12 @@ public class UIMovableView : UIElement
     /// 用于管理内部部件的UI
     /// </summary>
     public readonly UIBottom Inner;
+
     private bool dragging;
     private bool needReCal;
     private Vector2 oldPos;
     public bool Scrolling => dragging || IsMouseHover;
+
     public UIMovableView()
     {
         HiddenOverFlow = true;
@@ -60,7 +62,7 @@ public class UIMovableView : UIElement
         };
         Inner.AfterCalChildren += CalMoveSize;
         Inner.OnAddAny += (_, _) => needReCal = true;
-        (this as UIElement).Add(Inner);
+        base.Add(Inner);
         OnLeftJustPress += _ =>
         {
             if (!CanDrag)
@@ -93,6 +95,20 @@ public class UIMovableView : UIElement
     public new void Insert(int index, UIElement uie) => Inner.Insert(index, uie);
     public new bool Remove(UIElement uie) => Inner.Remove(uie);
     public new void RemoveAt(int index) => Inner.RemoveAt(index);
+    public new void Clear() => Inner.Clear();
+    public new bool Contains(UIElement uie) => Inner.Contains(uie);
+
+    public new void CopyTo(UIElement[] array, int arrayIndex) => Inner.CopyTo(array, arrayIndex);
+
+    public new int Count => Inner.Count;
+
+    public new int IndexOf(UIElement uie) => Inner.IndexOf(uie);
+
+    public new UIElement this[int index]
+    {
+        get => Inner[index];
+        set => Inner[index] = value;
+    }
 
     public void HandleScroll(MouseState state) => Scrolls.ForEach(x => x.UpdateScroll(state));
 
@@ -102,7 +118,8 @@ public class UIMovableView : UIElement
         int eX = EdgeX ?? 0, eY = EdgeY ?? 0;
         foreach (var uie in self)
         {
-            float r = uie.FullLocation.Left.Absolute + uie.Width + eX, b = uie.FullLocation.Top.Absolute + uie.Height + eY;
+            float r = uie.FullLocation.Left.Absolute + uie.Width + eX,
+                b = uie.FullLocation.Top.Absolute + uie.Height + eY;
             if (x < r)
                 x = r;
             if (y < b)

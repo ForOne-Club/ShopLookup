@@ -1,6 +1,6 @@
-using ReitsKit.UI.Interface;
+using ForOneToolkit.UI.Interface;
 
-namespace ReitsKit.UI.Basic;
+namespace ForOneToolkit.UI.Basic;
 
 public class UIImage : UIElement, IDrawTexture
 {
@@ -14,20 +14,45 @@ public class UIImage : UIElement, IDrawTexture
     public float Opacity { get; set; } = 1;
     public float Rot { get; set; }
     public Rectangle? SourceRect { get; set; }
-    public RectangleF DrawRect => FullArea;
+    public RectangleF DrawRect { get; set; }
     public Vector2 Origin { get; set; } = Vector2.Zero;
     public Vector2 Scale { get; set; } = Vector2.One;
 
-    public UIImage(Texture2D tex, bool autoSize = true)
+    public UIImage(Texture2D tex, bool autoSize = true, DrawTextureStyle style = DrawTextureStyle.Default)
     {
         Tex = tex;
         if (autoSize)
         {
             SetSize(tex.Size());
         }
+        ChangeDrawStyle(style);
     }
-
+    public void ChangeDrawStyle(DrawTextureStyle style)
+    {
+        switch (style)
+        {
+            case DrawTextureStyle.Full:
+                SourceRect = null;
+                DrawRect = FullArea;
+                return;
+            case DrawTextureStyle.HorizonFull:
+                Scale = new(DrawRect.Width / Tex.Width, 1);
+                break;
+            case DrawTextureStyle.VerticalFull:
+                Scale = new(1, DrawRect.Height / Tex.Height);
+                break;
+            case DrawTextureStyle.FromCenter:
+                DrawRect = new(FullArea.Center, 0, 0);
+                Origin = Tex.Size() / 2f;
+                break;
+        }
+    }
     protected override void DrawSelf(SpriteBatch sb) => sb.Draw(this);
+    protected override void CalculateSelf()
+    {
+        base.CalculateSelf();
+        ChangeDrawStyle(DrawTextureStyle);
+    }
 
     /// <summary>
     /// 改变纹理
@@ -42,5 +67,6 @@ public class UIImage : UIElement, IDrawTexture
             SetSize(tex.Size());
             Calculate();
         }
+        ChangeDrawStyle(DrawTextureStyle);
     }
 }

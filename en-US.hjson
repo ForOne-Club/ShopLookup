@@ -1,0 +1,14 @@
+Mods: {
+	ForOneToolkit: {
+		Configs: {
+			ToolConfig: {
+				DisplayName: Tool Config
+
+				UIMasterMode: {
+					Label: U I Master Mode
+					Tooltip: ""
+				}
+			}
+		}
+	}
+}

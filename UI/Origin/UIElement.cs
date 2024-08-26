@@ -1,6 +1,6 @@
 using System;
 
-namespace ReitsKit.UI.Origin;
+namespace ForOneToolkit.UI.Origin;
 
 public partial class UIElement : IList<UIElement>
 {
@@ -24,12 +24,12 @@ public partial class UIElement : IList<UIElement>
     /// <summary>
     /// 用法同<see cref="Main.hoverItemName"/>
     /// </summary>
-    public static ref string HoverText => ref UISystem.Manager.HoverText;
+    public string HoverText { get; set; }
 
     /// <summary>
     /// 显示<see cref="HoverText"/>时是否附加一个同原版一样的介绍框
     /// </summary>
-    public static ref bool DrawHoverBg => ref UISystem.Manager.DrawHoverBg;
+    public bool DrawHoverBg { get; set; }
 
     /// <summary>
     /// 部件是否包含点
@@ -103,11 +103,6 @@ public partial class UIElement : IList<UIElement>
     {
     }
 
-    public void Initialize()
-    {
-        OnInit();
-        FinishInit();
-    }
 
     public virtual void Update()
     {

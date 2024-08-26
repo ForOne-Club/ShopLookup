@@ -1,11 +1,8 @@
-using System;
-using ReitsKit.UI.Interface;
-using ReLogic.Graphics;
+using ForOneToolkit.UI.Interface;
 using Terraria.GameContent;
 using Terraria.UI.Chat;
-using static ReLogic.Graphics.DynamicSpriteFont;
 
-namespace ReitsKit.Helper;
+namespace ForOneToolkit.Helper;
 
 public static class DrawExtend
 {
@@ -89,30 +86,20 @@ public static class DrawExtend
     public static void Draw(this SpriteBatch sb, IDrawTexture info)
     {
         Texture2D tex = info.Tex;
-        if (tex == null) return;
+        if (tex == null)
+            return;
         RectangleF drawRect = info.DrawRect;
-        Vector2 drawPos = drawRect.TopLeft;
         Rectangle? source = info.SourceRect;
         Color color = info.Color;
+        if (info.DrawTextureStyle == DrawTextureStyle.Full)
+        {
+            sb.Draw(tex, drawRect, source, color);
+            return;
+        }
+        Vector2 drawPos = drawRect.TopLeft;
         float rot = info.Rot;
         Vector2 origin = info.Origin;
         Vector2 scale = info.Scale;
-        switch (info.DrawTextureStyle)
-        {
-            case DrawTextureStyle.Full:
-                sb.Draw(tex, drawRect, source, color);
-                return;
-            case DrawTextureStyle.HorizonFull:
-                scale.X = drawRect.Width / tex.Width;
-                break;
-            case DrawTextureStyle.VerticalFull:
-                scale.Y = drawRect.Height / tex.Height;
-                break;
-            case DrawTextureStyle.FromCenter:
-                drawPos = drawRect.Center;
-                break;
-        }
-
         sb.Draw(tex, drawPos, source, origin, scale, rot, color * info.Opacity);
     }
 

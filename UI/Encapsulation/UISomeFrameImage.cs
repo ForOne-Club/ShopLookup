@@ -1,6 +1,6 @@
 using System;
 
-namespace ReitsKit.UI.Encapsulation
+namespace ForOneToolkit.UI.Encapsulation
 {
     public class UI2FrameImage : UIImage
     {
@@ -46,12 +46,15 @@ namespace ReitsKit.UI.Encapsulation
         /// <summary>
         /// 激活条件
         /// </summary>
-        public readonly Func<UI3FrameImage, bool> Activator;
+        public Func<UI3FrameImage, bool> Activator { get; init; }
+        public UI3FrameImage(Texture2D tex) : base(tex)
+        {
+            SetSize(tex.Width / 3f, tex.Height);
+        }
 
-        public UI3FrameImage(Texture2D tex, Func<UI3FrameImage, bool> activator) : base(tex)
+        public UI3FrameImage(Texture2D tex, Func<UI3FrameImage, bool> activator) : this(tex)
         {
             Activator = activator;
-            SetSize(tex.Width / 3f, tex.Height);
         }
 
         public override void Update()

@@ -1,4 +1,4 @@
-namespace ReitsKit.UI.Origin;
+namespace ForOneToolkit.UI.Origin;
 
 public partial class UIElement
 {
@@ -170,6 +170,11 @@ public partial class UIElement
         RectangleF depend = Parent?.InsetArea ?? UISystem.Screen;
         FullArea = FullLocation.LocateWith(depend);
         InsetArea = InsetLocation.LocateWith(FullArea);
+        bool intersect = depend.Intersect(FullArea, out _);
+        if ((intersect && !Active) || (!intersect && Active))
+        {
+            ChangeActive();
+        }
     }
 
     protected virtual void CalculateChildren() => _children.ForEach(x => x.Calculate());

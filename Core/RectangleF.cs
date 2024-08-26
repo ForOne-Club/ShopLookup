@@ -1,6 +1,6 @@
 using static System.Math;
 
-namespace ReitsKit.Core;
+namespace ForOneToolkit.Core;
 
 public struct RectangleF(float l = 0, float t = 0, float w = 0, float h = 0)
 {

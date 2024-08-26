@@ -1,4 +1,4 @@
-namespace ReitsKit.UI.Origin;
+namespace ForOneToolkit.UI.Origin;
 
 public partial class UIElement
 {

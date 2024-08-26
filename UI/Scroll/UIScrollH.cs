@@ -1,6 +1,6 @@
 using System;
 
-namespace ReitsKit.UI.Scroll
+namespace ForOneToolkit.UI.Scroll
 {
     /// <summary>
     /// 水平滚动条

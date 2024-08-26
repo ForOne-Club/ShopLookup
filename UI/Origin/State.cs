@@ -1,4 +1,4 @@
-namespace ReitsKit.UI.Origin;
+namespace ForOneToolkit.UI.Origin;
 
 public partial class UIElement
 {
@@ -47,6 +47,8 @@ public partial class UIElement
     /// </summary>
     public bool Sensitive { get; init; }
 
+    public int HoverTime { get; private set; }
+
     public bool ChangeActive()
     {
         Active = !Active;
@@ -82,7 +84,8 @@ public partial class UIElement
     {
         OtherSourceLock = false;
         OtherSourceLockChange();
-        if (only) return;
+        if (only)
+            return;
         foreach (var uie in this)
         {
             uie.UnlockByOther();
@@ -100,10 +103,9 @@ public partial class UIElement
 
     public void FinishInit()
     {
-        InitDone = true;
-        foreach (var uie in this)
+        foreach (var uie in GetAllChildren(Vector2.Zero, out _))
         {
-            uie.FinishInit();
+            uie.InitDone = true;
         }
     }
 }

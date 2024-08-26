@@ -1,7 +1,7 @@
 using Terraria.UI;
-using UIElement = ReitsKit.UI.Origin.UIElement;
+using UIElement = ForOneToolkit.UI.Origin.UIElement;
 
-namespace ReitsKit.UI.Basic;
+namespace ForOneToolkit.UI.Basic;
 
 /// <summary>
 /// 物品栏，交互请自己实现，毕竟每个地方功能都不同

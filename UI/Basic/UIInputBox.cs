@@ -1,12 +1,12 @@
 using System;
 using Microsoft.Xna.Framework.Input;
-using ReitsKit.UI.Interface;
+using ForOneToolkit.UI.Interface;
 using ReLogic.Graphics;
-using ReitsKit.UI.Encapsulation;
+using ForOneToolkit.UI.Encapsulation;
 using Terraria.GameContent;
 using FontData = ReLogic.Graphics.DynamicSpriteFont.SpriteCharacterData;
 
-namespace ReitsKit.UI.Basic;
+namespace ForOneToolkit.UI.Basic;
 
 /// <summary>
 /// 文本输入框，注意其本身是一个透明的部件

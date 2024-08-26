@@ -1,7 +1,7 @@
-using ReitsKit.UI.Interface;
+using ForOneToolkit.UI.Interface;
 using Terraria.GameContent;
 
-namespace ReitsKit.UI.Basic;
+namespace ForOneToolkit.UI.Basic;
 
 /// <summary>
 /// 最基础的部件，作为底层面板用

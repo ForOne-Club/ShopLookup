@@ -1,6 +1,6 @@
 using System;
 
-namespace ReitsKit.UI.Scroll
+namespace ForOneToolkit.UI.Scroll
 {
     public class UIScrollV : UIBarScroll
     {
@@ -95,6 +95,11 @@ namespace ReitsKit.UI.Scroll
             return (scissors, local);
         }
 
+        /// <summary>
+        /// 从左到右溢出向下换行
+        /// </summary>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
         public void VerticalFlowLayout(int w, int h)
         {
             View.AutoPos = list =>
@@ -110,6 +115,23 @@ namespace ReitsKit.UI.Scroll
                     }
                     uie.SetPos(x, y, cal: true);
                     x += uie.Width + w;
+                }
+            };
+        }
+
+        /// <summary>
+        /// 每个元素一行向下换行
+        /// </summary>
+        /// <param name="h"></param>
+        public void VerticalLineBreak(float h)
+        {
+            View.AutoPos = list =>
+            {
+                float y = View.EdgeY ?? 0;
+                foreach (var uie in list)
+                {
+                    uie.SetPos(0, y, cal: true);
+                    y += uie.Height + h;
                 }
             };
         }

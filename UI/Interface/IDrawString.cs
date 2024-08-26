@@ -1,6 +1,6 @@
 using ReLogic.Graphics;
 
-namespace ReitsKit.UI.Interface;
+namespace ForOneToolkit.UI.Interface;
 
 public interface IDrawString
 {

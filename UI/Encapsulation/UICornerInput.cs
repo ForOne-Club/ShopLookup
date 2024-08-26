@@ -1,6 +1,6 @@
 using System;
 
-namespace ReitsKit.UI.Encapsulation;
+namespace ForOneToolkit.UI.Encapsulation;
 
 public class UICornerInput : UICornerPanel
 {

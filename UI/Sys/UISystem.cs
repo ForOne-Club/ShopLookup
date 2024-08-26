@@ -1,10 +1,10 @@
 using Terraria.UI;
 
-namespace ReitsKit.UI.Sys;
+namespace ForOneToolkit.UI.Sys;
 
 public class UISystem : ModSystem
 {
-    internal static UIManager Manager { get; private set; }
+    public static UIManager Manager { get; private set; }
     internal static Vector2 Resolution { get; private set; } = Vector2.Zero;
     internal static RectangleF Screen { get; private set; }
 

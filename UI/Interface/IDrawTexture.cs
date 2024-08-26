@@ -1,4 +1,4 @@
-namespace ReitsKit.UI.Interface;
+namespace ForOneToolkit.UI.Interface;
 
 /// <summary>
 /// 实现某种缓存的绘制（意义不明

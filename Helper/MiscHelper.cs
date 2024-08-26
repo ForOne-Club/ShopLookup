@@ -1,9 +1,9 @@
-global using static ReitsKit.Helper.MiscHelper;
-global using ReitsKit.UI.Basic;
-global using ReitsKit.UI.Origin;
-global using ReitsKit.UI.Sys;
-global using static ReitsKit.Helper.DrawExtend;
-global using ReitsKit.Core;
+global using static ForOneToolkit.Helper.MiscHelper;
+global using ForOneToolkit.UI.Basic;
+global using ForOneToolkit.UI.Origin;
+global using ForOneToolkit.UI.Sys;
+global using static ForOneToolkit.Helper.DrawExtend;
+global using ForOneToolkit.Core;
 global using Microsoft.Xna.Framework;
 global using Microsoft.Xna.Framework.Graphics;
 global using ReLogic.Content;
@@ -11,7 +11,7 @@ global using Terraria.ModLoader;
 global using Terraria;
 global using System.Collections.Generic;
 
-namespace ReitsKit.Helper;
+namespace ForOneToolkit.Helper;
 
 public static class MiscHelper
 {

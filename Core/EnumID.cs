@@ -1,6 +1,6 @@
 using System;
 
-namespace ReitsKit.Core
+namespace ForOneToolkit.Core
 {
     /// <summary>
     /// 请在使用时明确使用的Enum是继承自int

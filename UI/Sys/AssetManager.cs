@@ -1,6 +1,6 @@
 using Terraria.GameContent;
 
-namespace ReitsKit.UI.Sys;
+namespace ForOneToolkit.UI.Sys;
 
 public static class AssetManager
 {
@@ -38,7 +38,7 @@ public static class AssetManager
 
     public static void Load()
     {
-        const string path = "ReitsKit/Assets/";
+        const string path = "ForOneToolkit/Assets/";
         string[] files =
         [
             "BackGround",
